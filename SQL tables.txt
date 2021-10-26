@@ -1,0 +1,51 @@
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS AuthTokens;
+DROP TABLE IF EXISTS Persons;
+DROP TABLE IF EXISTS Events;
+
+CREATE TABLE Users
+(
+	Username varchar(255) not null primary key,
+	Password varchar(255) not null,
+	Email varchar(255) not null,
+	FirstName varchar(255) not null,
+	LastName varchar(255) not null,
+	Gender varchar(1) not null,
+	PersonID varchar(255) not null,
+	foreign key(personID) references person(id)
+);
+
+CREATE TABLE AuthTokens
+(
+	ID integer not null primary key autoincrement,
+	AssociatedUsername varchar(255) not null,
+	foreign key(associatedUsername) references user(username)
+);
+
+CREATE TABLE Persons
+(
+	PersonID varchar(255) not null primary key,
+	AssociatedUsername varchar(255) not null,
+	FirstName varchar(255) not null,
+	LastName varchar(255) not null,
+	Gender varchar(1) not null,
+	FatherID varchar(255),
+	MotherID varchar(255),
+	SpouseID varchar(255),
+	foreign key(associatedUsername) references user(username)
+);
+
+create table Events
+(
+	EventID varchar(255) not null primary key,
+	AssociatedUsername varchar(255) not null,
+	PersonID varchar(255) not null,
+	Latitude decimal(9,6) not null,
+	Longitude decimal(9,6) not null,
+	Country varchar(255) not null,
+	City varchar(255) not null,
+	EventType varchar(255) not null,
+	Year integer not null,
+	foreign key(associatedUsername) references user(username),
+	foreign key(personID) references person(id)
+);
